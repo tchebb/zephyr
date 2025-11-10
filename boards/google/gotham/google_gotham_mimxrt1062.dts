@@ -267,10 +267,9 @@
 &lpuart3 {
 	status = "okay";
 	current-speed = <4000000>;
-	// TODO: Split flowcontrol pins
 	pinctrl-0 = <&pinmux_lpuart3>;
-	//pinctrl-1 = <&pinmux_lpuart3_flow_control>;
-	pinctrl-names = "default";
+	pinctrl-1 = <&pinmux_lpuart3_flow_control>;
+	pinctrl-names = "default", "flowcontrol";
 };
 
 &adc1 {

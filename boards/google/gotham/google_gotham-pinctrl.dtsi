@@ -87,10 +87,21 @@
 	/* Configures pin routing and optionally pin electrical features. */
 	pinmux_lpuart3: pinmux_lpuart3 {
 		group0 {
-			pinmux = <&iomuxc_gpio_emc_15_lpuart3_cts_b>,
-				<&iomuxc_gpio_emc_16_lpuart3_rts_b>,
-				<&iomuxc_gpio_emc_14_lpuart3_rx>,
+			pinmux = <&iomuxc_gpio_emc_14_lpuart3_rx>,
 				<&iomuxc_gpio_emc_13_lpuart3_tx>;
+			drive-strength = "r0-6";
+			bias-pull-up;
+			bias-pull-up-value = "100k";
+			slew-rate = "slow";
+			nxp,speed = "50-mhz";
+		};
+	};
+
+	/* Configures pin routing and optionally pin electrical features. */
+	pinmux_lpuart3_flow_control: pinmux_lpuart3_flow_control {
+		group0 {
+			pinmux = <&iomuxc_gpio_emc_15_lpuart3_cts_b>,
+				<&iomuxc_gpio_emc_16_lpuart3_rts_b>;
 			drive-strength = "r0-6";
 			bias-pull-up;
 			bias-pull-up-value = "100k";
