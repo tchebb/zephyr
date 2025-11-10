@@ -1,0 +1,6 @@
+board:
+  name: google_gotham
+  full_name: Google Stadia Controller
+  vendor: google
+  socs:
+    - name: mimxrt1062
