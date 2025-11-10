@@ -1,0 +1,380 @@
+/dts-v1/;
+
+#include <nxp/nxp_rt1060.dtsi>
+#include "google_gotham-pinctrl.dtsi"
+
+#include <zephyr/dt-bindings/adc/adc.h>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
+/ {
+	model = "Google Stadia Controller (gotham)";
+	compatible = "google,gotham";
+
+	chosen {
+		zephyr,flash = &itcm; // TODO
+		zephyr,sram = &ocram;
+		zephyr,itcm = &itcm;
+		zephyr,dtcm = &dtcm;
+		zephyr,console = &lpuart1;
+		zephyr,shell-uart = &lpuart1;
+		zephyr,flash-controller = &zd25lq128;
+	};
+
+	aliases {
+		led0 = &lp5562;
+		sw0 = &stadia_button;
+		watchdog0 = &wdog0;
+		sdhc0 = &usdhc1;
+		rtc = &counter_rtc;
+	};
+
+	gamepad-digital {
+		compatible = "gpio-keys";
+
+		stadia_button: button-stadia {
+			label = "Stadia";
+			gpios = <&gpio2 11 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_MODE>;
+		};
+
+		button-options {
+			label = "Options";
+			gpios = <&gpio2 12 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_SELECT>;
+		};
+
+		button-menu {
+			label = "Menu";
+			gpios = <&gpio2 13 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_START>;
+		};
+
+		button-assistant {
+			label = "Assistant";
+			gpios = <&gpio2 14 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_TASK>;
+		};
+
+		button-capture {
+			label = "Capture";
+			gpios = <&gpio2 15 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_EXTRA>;
+		};
+
+		button-a {
+			label = "A";
+			gpios = <&gpio2 0 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_SOUTH>;
+		};
+
+		button-b {
+			label = "B";
+			gpios = <&gpio2 1 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_EAST>;
+		};
+
+		button-x {
+			label = "X";
+			gpios = <&gpio2 2 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_WEST>;
+		};
+
+		button-y {
+			label = "Y";
+			gpios = <&gpio2 3 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_NORTH>;
+		};
+
+		dpad-up {
+			label = "Up";
+			gpios = <&gpio3 0 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_DPAD_UP>;
+		};
+
+		dpad-down {
+			label = "Down";
+			gpios = <&gpio3 1 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_DPAD_DOWN>;
+		};
+
+		dpad-left {
+			label = "Left";
+			gpios = <&gpio3 2 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_DPAD_LEFT>;
+		};
+
+		dpad-right {
+			label = "Right";
+			gpios = <&gpio3 3 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_DPAD_RIGHT>;
+		};
+
+		button-l1 {
+			label = "L1";
+			gpios = <&gpio4 0 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_TL>;
+		};
+
+		button-r1 {
+			label = "R1";
+			gpios = <&gpio4 1 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_TR>;
+		};
+
+		button-l3 {
+			label = "L3";
+			gpios = <&gpio1 0 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_THUMBL>;
+		};
+
+		button-r3 {
+			label = "R3";
+			gpios = <&gpio1 2 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_BTN_THUMBR>;
+		};
+	};
+
+	gamepad-analog {
+		compatible = "analog-axis";
+		poll-period-ms = <15>;
+
+		axis-r3-x {
+			io-channels = <&adc1 9>;
+			in-deadzone = <200>;
+			in-min = <0>;
+			in-max = <3300>;
+			zephyr,axis = <INPUT_ABS_RX>;
+		};
+
+		axis-r3-y {
+			io-channels = <&adc1 10>;
+			in-deadzone = <200>;
+			in-min = <0>;
+			in-max = <3300>;
+			zephyr,axis = <INPUT_ABS_RY>;
+		};
+
+		axis-l3-x {
+			io-channels = <&adc1 11>;
+			in-deadzone = <200>;
+			in-min = <0>;
+			in-max = <3300>;
+			zephyr,axis = <INPUT_ABS_X>;
+		};
+
+		axis-l3-y {
+			io-channels = <&adc1 12>;
+			in-deadzone = <200>;
+			in-min = <0>;
+			in-max = <3300>;
+			zephyr,axis = <INPUT_ABS_Y>;
+		};
+	};
+};
+
+&flexspi {
+	status = "okay";
+	pinctrl-0 = <&pinmux_flexspi>;
+	pinctrl-names = "default";
+	ahb-prefetch;
+	ahb-read-addr-opt;
+	rx-clock-source = <1>;
+	reg = <0x402a8000 0x4000>, <0x60000000 DT_SIZE_M(16)>;
+
+	zd25lq128: zd25lq128@0 {
+		compatible = "nxp,imx-flexspi-nor";
+		size = <DT_SIZE_M(16 * 8)>;
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_M(133)>;
+		status = "okay";
+		jedec-id = [9d 70 17]; // TODO
+		erase-block-size = <DT_SIZE_K(4)>;
+		write-block-size = <1>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			/* Flash Configuration Block */
+			partition@0 {
+				label = "fcb";
+				reg = <0x000000 DT_SIZE_K(4)>;
+			};
+
+			/* Image Vector Table */
+			partition@1000 {
+				label = "ivt";
+				reg = <0x001000 DT_SIZE_K(4)>;
+			};
+
+			/* Key/Value Store */
+			kvs_partition: partition@6000 {
+				label = "kvs";
+				reg = <0x006000 DT_SIZE_K(232)>;
+			};
+
+			slot_a_partition: partition@40000 {
+				label = "slot-a";
+				reg = <0x040000 (DT_SIZE_M(8) - DT_SIZE_K(256))>;
+			};
+
+			partition@8000000 {
+				label = "boot";
+				reg = <0x800000 DT_SIZE_K(256)>;
+			};
+
+			slot_b_partition: partition@840000 {
+				label = "slot-b";
+				reg = <0x840000 (DT_SIZE_M(8) - DT_SIZE_K(256) - 256)>;
+			};
+
+			/* Not in stock layout, but needed by code exec exploit */
+			partition@ffff00 {
+				label = "exploit-shim";
+				reg = <0xffff00 256>;
+			};
+		};
+	};
+};
+
+&lpi2c1 {
+	status = "okay";
+	pinctrl-0 = <&pinmux_lpi2c1>;
+	pinctrl-names = "default";
+
+	// TODO: devices
+};
+
+&lpi2c2 {
+	status = "okay";
+	pinctrl-0 = <&pinmux_lpi2c2>;
+	pinctrl-names = "default";
+
+	lp5562: leds@30 {
+		compatible = "ti,lp5562";
+		reg = <0x30>;
+	};
+};
+
+&lpuart1 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-0 = <&pinmux_lpuart1>;
+	pinctrl-names = "default";
+};
+
+&lpuart3 {
+	status = "okay";
+	current-speed = <4000000>;
+	// TODO: Split flowcontrol pins
+	pinctrl-0 = <&pinmux_lpuart3>;
+	//pinctrl-1 = <&pinmux_lpuart3_flow_control>;
+	pinctrl-names = "default";
+};
+
+&adc1 {
+	status = "okay";
+	pinctrl-0 = <&pinmux_joysticks>;
+	pinctrl-names = "default";
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	r3_x: channel@9 {
+		reg = <9>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+
+	r3_y: channel@10 {
+		reg = <10>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+
+	l3_x: channel@11 {
+		reg = <11>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+
+	l3_y: channel@12 {
+		reg = <12>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+};
+
+zephyr_udc0: &usb1 {
+	status = "okay";
+	phy-handle = <&usbphy1>;
+};
+
+zephyr_uhc0: &usbh1 {
+	status = "okay";
+	phy-handle = <&usbphy1>;
+};
+
+&usbphy1 {
+	status = "okay";
+	tx-d-cal = <6>;
+	tx-cal-45-dp-ohms = <3>;
+	tx-cal-45-dm-ohms = <3>;
+};
+
+&usdhc1 {
+	status = "okay";
+	//power-delay-ms = <1000>;
+	//pwr-gpios = <&gpio1 5 GPIO_ACTIVE_HIGH>;
+	//cd-gpios = <&gpio2 28 GPIO_ACTIVE_LOW>;
+	status = "okay";
+	pinctrl-0 = <&pinmux_usdhc1>;
+	pinctrl-names = "default";
+
+	// TODO: Wi-Fi
+};
+
+&edma0 {
+	status = "okay";
+};
+
+&wdog0 {
+	status = "okay";
+};
+
+// TODO
+#if 0
+&sai1 {
+	status = "okay";
+	pinctrl-0 = <&pinmux_sai1>;
+	pinctrl-names = "default";
+};
+#endif
+
+&gpt_hw_timer {
+	status = "okay";
+};
+
+&systick {
+	status = "okay";
+};
+
+&iomuxcgpr {
+	status = "okay";
+};
+
+&pit0 {
+	status = "okay";
+};
+
+&counter_rtc {
+	status = "okay";
+};
