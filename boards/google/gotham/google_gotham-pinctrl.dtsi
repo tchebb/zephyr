@@ -17,11 +17,11 @@
 	/* Configures pin routing and optionally pin electrical features. */
 	pinmux_flexspi: pinmux_flexspi {
 		group0 {
-			pinmux = <&iomuxc_gpio_sd_b1_08_flexspi_a_data0>,
+			pinmux = <&iomuxc_gpio_sd_b1_07_flexspi_a_sclk>,
+				<&iomuxc_gpio_sd_b1_08_flexspi_a_data0>,
 				<&iomuxc_gpio_sd_b1_09_flexspi_a_data1>,
 				<&iomuxc_gpio_sd_b1_10_flexspi_a_data2>,
-				<&iomuxc_gpio_sd_b1_11_flexspi_a_data3>,
-				<&iomuxc_gpio_sd_b1_07_flexspi_a_sclk>;
+				<&iomuxc_gpio_sd_b1_11_flexspi_a_data3>;
 			bias-disable;
 			drive-strength = "r0-6";
 			slew-rate = "fast";
@@ -74,8 +74,8 @@
 	/* Configures pin routing and optionally pin electrical features. */
 	pinmux_lpuart1: pinmux_lpuart1 {
 		group0 {
-			pinmux = <&iomuxc_gpio_ad_b0_13_lpuart1_rx>,
-				<&iomuxc_gpio_ad_b0_12_lpuart1_tx>;
+			pinmux = <&iomuxc_gpio_ad_b0_12_lpuart1_tx>,
+				<&iomuxc_gpio_ad_b0_13_lpuart1_rx>;
 			drive-strength = "r0-6";
 			bias-pull-up;
 			bias-pull-up-value = "100k";
@@ -87,8 +87,8 @@
 	/* Configures pin routing and optionally pin electrical features. */
 	pinmux_lpuart3: pinmux_lpuart3 {
 		group0 {
-			pinmux = <&iomuxc_gpio_emc_14_lpuart3_rx>,
-				<&iomuxc_gpio_emc_13_lpuart3_tx>;
+			pinmux = <&iomuxc_gpio_emc_13_lpuart3_tx>,
+				<&iomuxc_gpio_emc_14_lpuart3_rx>;
 			drive-strength = "r0-6";
 			bias-pull-up;
 			bias-pull-up-value = "100k";
