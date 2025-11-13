@@ -255,6 +255,7 @@
 	lp5562: leds@30 {
 		compatible = "ti,lp5562";
 		reg = <0x30>;
+		status = "okay";
 	};
 };
 
