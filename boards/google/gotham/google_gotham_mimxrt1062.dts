@@ -18,6 +18,7 @@
 		zephyr,console = &lpuart1;
 		zephyr,shell-uart = &lpuart1;
 		zephyr,flash-controller = &zd25lq128;
+		zephyr,bt-hci = &bt_hci;
 	};
 
 	aliases {
@@ -266,10 +267,27 @@
 
 &lpuart3 {
 	status = "okay";
-	current-speed = <4000000>;
+	current-speed = <115200>;
 	pinctrl-0 = <&pinmux_lpuart3>;
 	pinctrl-1 = <&pinmux_lpuart3_flow_control>;
 	pinctrl-names = "default", "flowcontrol";
+
+	hw-flow-control;
+
+	bt_hci: bluetooth {
+		compatible = "zephyr,bt-hci-uart";
+		status = "okay";
+
+		bcm43458f_bt {
+			compatible = "infineon,cyw43xxx-bt-hci";
+			status = "okay";
+
+			bt-reg-on-gpios = <&gpio3 20 GPIO_ACTIVE_HIGH>;
+			// TODO: bt-dev-wake-gpios?
+			fw-download-speed = <4000000>;
+			hci-operation-speed = <4000000>;
+		};
+	};
 };
 
 &adc1 {
