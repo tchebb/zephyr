@@ -11,7 +11,7 @@
 	compatible = "google,gotham";
 
 	chosen {
-		zephyr,flash = &itcm; // TODO
+		zephyr,flash = &ocram2;
 		zephyr,sram = &ocram;
 		zephyr,itcm = &itcm;
 		zephyr,dtcm = &dtcm;
@@ -227,13 +227,7 @@
 
 			slot_b_partition: partition@840000 {
 				label = "slot-b";
-				reg = <0x840000 (DT_SIZE_M(8) - DT_SIZE_K(256) - 256)>;
-			};
-
-			/* Not in stock layout, but needed by code exec exploit */
-			partition@ffff00 {
-				label = "exploit-shim";
-				reg = <0xffff00 256>;
+				reg = <0x840000 (DT_SIZE_M(8) - DT_SIZE_K(256))>;
 			};
 		};
 	};
