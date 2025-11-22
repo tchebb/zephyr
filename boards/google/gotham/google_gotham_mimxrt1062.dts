@@ -173,6 +173,30 @@
 	};
 };
 
+&flexram {
+	/*
+	 * Reset FlexRAM to default layout (copied from fuses) because Google's
+	 * bootloader sets a different layout and IOMUXC_GPR registers aren't
+	 * reset when resetting into SDP from there.
+	 */
+	flexram,bank-spec = <FLEXRAM_OCRAM>,
+			    <FLEXRAM_OCRAM>,
+			    <FLEXRAM_OCRAM>,
+			    <FLEXRAM_OCRAM>,
+			    <FLEXRAM_DTCM>,
+			    <FLEXRAM_DTCM>,
+			    <FLEXRAM_ITCM>,
+			    <FLEXRAM_ITCM>,
+			    <FLEXRAM_ITCM>,
+			    <FLEXRAM_ITCM>,
+			    <FLEXRAM_DTCM>,
+			    <FLEXRAM_DTCM>,
+			    <FLEXRAM_OCRAM>,
+			    <FLEXRAM_OCRAM>,
+			    <FLEXRAM_OCRAM>,
+			    <FLEXRAM_OCRAM>;
+};
+
 &flexspi {
 	status = "okay";
 	pinctrl-0 = <&pinmux_flexspi>;
