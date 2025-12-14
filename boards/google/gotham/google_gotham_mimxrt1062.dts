@@ -368,14 +368,19 @@ zephyr_uhc0: &usbh1 {
 
 &usdhc1 {
 	status = "okay";
-	//power-delay-ms = <1000>;
-	//pwr-gpios = <&gpio1 5 GPIO_ACTIVE_HIGH>;
-	//cd-gpios = <&gpio2 28 GPIO_ACTIVE_LOW>;
-	status = "okay";
 	pinctrl-0 = <&pinmux_usdhc1>;
 	pinctrl-names = "default";
 
-	// TODO: Wi-Fi
+	/* Broadcom backplane writes fail above ~100MHz or with DDR. */
+	max-bus-freq = <DT_FREQ_M(50)>;
+
+	bcm43458f_wifi {
+		status = "okay";
+		compatible = "infineon,airoc-wifi";
+
+		wifi-reg-on-gpios = <&gpio3 21 GPIO_ACTIVE_HIGH>;
+		wifi-host-wake-gpios = <&gpio3 23 GPIO_ACTIVE_HIGH>;
+	};
 };
 
 &edma0 {
