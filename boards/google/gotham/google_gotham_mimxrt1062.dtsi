@@ -17,8 +17,6 @@
 	compatible = "google,gotham";
 
 	chosen {
-		zephyr,flash = &ocram2;
-		zephyr,sram = &ocram;
 		zephyr,itcm = &itcm;
 		zephyr,dtcm = &dtcm;
 		zephyr,console = &lpuart1;

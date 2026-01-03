@@ -1,0 +1,14 @@
+/*
+ * Copyright (c) 2026 Thomas Hebb
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include "google_gotham_mimxrt1062.dtsi"
+
+/ {
+	chosen {
+		zephyr,flash = &ocram2;
+		zephyr,sram = &ocram;
+	};
+};
