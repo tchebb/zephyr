@@ -4,3 +4,7 @@ board:
   vendor: google
   socs:
     - name: mimxrt1062
+      variants:
+        - name: slota
+        - name: slotb
+        - name: ram
