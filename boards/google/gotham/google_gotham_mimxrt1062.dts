@@ -233,10 +233,27 @@
 				reg = <0x001000 DT_SIZE_K(4)>;
 			};
 
-			/* Key/Value Store */
-			kvs_partition: partition@6000 {
-				label = "kvs";
-				reg = <0x006000 DT_SIZE_K(232)>;
+			/* Encrypted JSON crash logs */
+			partition@6000 {
+				label = "crash";
+				reg = <0x006000 DT_SIZE_K(136)>;
+			};
+
+			/* Encrypted Key/Value Store for user configuration */
+			kv_user_partition: partition@28000 {
+				label = "kv-user";
+				reg = <0x028000 DT_SIZE_K(32)>;
+			};
+
+			/* Encrypted Key/Value Store for immutable device metadata */
+			kv_factory_partition: partition@38000 {
+				label = "kv-factory";
+				reg = <0x038000 DT_SIZE_K(16)>;
+			};
+
+			partition@3c000 {
+				label = "kv-boot";
+				reg = <0x03c000 DT_SIZE_K(16)>;
 			};
 
 			slot_a_partition: partition@40000 {
@@ -244,9 +261,14 @@
 				reg = <0x040000 (DT_SIZE_M(8) - DT_SIZE_K(256))>;
 			};
 
-			partition@8000000 {
-				label = "boot";
-				reg = <0x800000 DT_SIZE_K(256)>;
+			partition@800000 {
+				label = "boot-a";
+				reg = <0x800000 DT_SIZE_K(128)>;
+			};
+
+			partition@820000 {
+				label = "boot-b";
+				reg = <0x820000 DT_SIZE_K(128)>;
 			};
 
 			slot_b_partition: partition@840000 {
