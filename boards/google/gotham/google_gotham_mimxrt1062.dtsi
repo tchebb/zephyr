@@ -214,7 +214,10 @@
 	zd25lq128: zd25lq128@0 {
 		compatible = "nxp,imx-flexspi-nor";
 		reg = <0>;
+		ranges = <0x0 0x60000000 DT_SIZE_M(16)>;
 		size = <DT_SIZE_M(16 * 8)>;
+		#address-cells = <1>;
+		#size-cells = <1>;
 
 		spi-max-frequency = <DT_FREQ_M(133)>;
 		jedec-id = [c8 60 18];
@@ -225,6 +228,7 @@
 
 		partitions {
 			compatible = "fixed-partitions";
+			ranges;
 			#address-cells = <1>;
 			#size-cells = <1>;
 
