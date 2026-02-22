@@ -202,23 +202,26 @@
 };
 
 &flexspi {
-	status = "okay";
+	reg = <0x402a8000 0x4000>, <0x60000000 DT_SIZE_M(16)>;
 	pinctrl-0 = <&pinmux_flexspi>;
 	pinctrl-names = "default";
 	ahb-prefetch;
 	ahb-read-addr-opt;
 	rx-clock-source = <1>;
-	reg = <0x402a8000 0x4000>, <0x60000000 DT_SIZE_M(16)>;
+
+	status = "okay";
 
 	zd25lq128: zd25lq128@0 {
 		compatible = "nxp,imx-flexspi-nor";
-		size = <DT_SIZE_M(16 * 8)>;
 		reg = <0>;
+		size = <DT_SIZE_M(16 * 8)>;
+
 		spi-max-frequency = <DT_FREQ_M(133)>;
-		status = "okay";
 		jedec-id = [c8 60 18];
 		erase-block-size = <DT_SIZE_K(4)>;
 		write-block-size = <1>;
+
+		status = "okay";
 
 		partitions {
 			compatible = "fixed-partitions";
@@ -284,43 +287,48 @@
 };
 
 &lpi2c1 {
-	status = "okay";
 	pinctrl-0 = <&pinmux_lpi2c1>;
 	pinctrl-names = "default";
 
 	// TODO: devices
+
+	status = "okay";
 };
 
 &lpi2c2 {
-	status = "okay";
 	pinctrl-0 = <&pinmux_lpi2c2>;
 	pinctrl-names = "default";
+
+	status = "okay";
 
 	lp5562: leds@30 {
 		compatible = "ti,lp5562";
 		reg = <0x30>;
+
 		status = "okay";
 	};
 };
 
 &lpuart1 {
-	status = "okay";
-	current-speed = <115200>;
 	pinctrl-0 = <&pinmux_lpuart1>;
 	pinctrl-names = "default";
+	current-speed = <115200>;
+
+	status = "okay";
 };
 
 &lpuart3 {
-	status = "okay";
-	current-speed = <115200>;
 	pinctrl-0 = <&pinmux_lpuart3>;
 	pinctrl-1 = <&pinmux_lpuart3_flow_control>;
 	pinctrl-names = "default", "flowcontrol";
-
+	current-speed = <115200>;
 	hw-flow-control;
+
+	status = "okay";
 
 	bt_hci: bluetooth {
 		compatible = "zephyr,bt-hci-uart";
+
 		status = "okay";
 
 		bcm43458f_bt {
@@ -336,11 +344,12 @@
 };
 
 &adc1 {
-	status = "okay";
 	pinctrl-0 = <&pinmux_joysticks>;
 	pinctrl-names = "default";
 	#address-cells = <1>;
 	#size-cells = <0>;
+
+	status = "okay";
 
 	r3_x: channel@9 {
 		reg = <9>;
@@ -376,36 +385,40 @@
 };
 
 zephyr_udc0: &usb1 {
-	status = "okay";
 	phy-handle = <&usbphy1>;
+
+	status = "okay";
 };
 
 zephyr_uhc0: &usbh1 {
-	status = "okay";
 	phy-handle = <&usbphy1>;
+
+	status = "okay";
 };
 
 &usbphy1 {
-	status = "okay";
 	tx-d-cal = <6>;
 	tx-cal-45-dp-ohms = <3>;
 	tx-cal-45-dm-ohms = <3>;
+
+	status = "okay";
 };
 
 &usdhc1 {
-	status = "okay";
 	pinctrl-0 = <&pinmux_usdhc1>;
 	pinctrl-names = "default";
 
 	/* Broadcom backplane writes fail above ~100MHz or with DDR. */
 	max-bus-freq = <DT_FREQ_M(50)>;
 
-	bcm43458f_wifi {
-		status = "okay";
-		compatible = "infineon,airoc-wifi";
+	status = "okay";
 
+	bcm43458f_wifi {
+		compatible = "infineon,airoc-wifi";
 		wifi-reg-on-gpios = <&gpio3 21 GPIO_ACTIVE_HIGH>;
 		wifi-host-wake-gpios = <&gpio3 23 GPIO_ACTIVE_HIGH>;
+
+		status = "okay";
 	};
 };
 
@@ -420,9 +433,10 @@ zephyr_uhc0: &usbh1 {
 // TODO
 #if 0
 &sai1 {
-	status = "okay";
 	pinctrl-0 = <&pinmux_sai1>;
 	pinctrl-names = "default";
+
+	status = "okay";
 };
 #endif
 
