@@ -336,7 +336,7 @@
 		status = "okay";
 
 		bcm43458f_bt {
-			compatible = "infineon,cyw43xxx-bt-hci";
+			compatible = "infineon,bt-hci-uart";
 			status = "okay";
 
 			bt-reg-on-gpios = <&gpio3 20 GPIO_ACTIVE_HIGH>;
