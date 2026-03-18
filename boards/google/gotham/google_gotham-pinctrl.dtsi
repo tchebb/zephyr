@@ -113,6 +113,18 @@
 	};
 
 	/* Configures pin routing and optionally pin electrical features. */
+	pinmux_triggers: pinmux_triggers {
+		group0 {
+			pinmux = <&iomuxc_gpio_ad_b1_08_adc1_in13>,
+				<&iomuxc_gpio_ad_b1_03_adc1_in8>;
+			bias-disable;
+			drive-strength = "r0-6";
+			slew-rate = "slow";
+			nxp,speed = "50-mhz";
+		};
+	};
+
+	/* Configures pin routing and optionally pin electrical features. */
 	pinmux_usdhc1: pinmux_usdhc1 {
 		group0 {
 			pinmux = <&iomuxc_gpio_sd_b0_01_usdhc1_clk>;

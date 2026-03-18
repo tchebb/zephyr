@@ -174,6 +174,27 @@
 			in-max = <3300>;
 			zephyr,axis = <INPUT_ABS_Y>;
 		};
+
+		axis-l2 {
+			io-channels = <&adc1 13>;
+			in-min = <0>;
+			in-max = <3300>;
+			zephyr,axis = <INPUT_ABS_BRAKE>;
+		};
+
+		axis-r2 {
+			io-channels = <&adc1 8>;
+			in-min = <0>;
+			in-max = <3300>;
+			zephyr,axis = <INPUT_ABS_GAS>;
+		};
+	};
+
+	hall-effect-pwr {
+		compatible = "regulator-fixed";
+		regulator-name = "hall-effect-pwr";
+		enable-gpios = <&gpio2 10 GPIO_ACTIVE_LOW>;
+		regulator-boot-on;
 	};
 };
 
@@ -381,6 +402,22 @@
 
 	l3_y: channel@c {
 		reg = <12>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+
+	l2: channel@d {
+		reg = <13>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+
+	r2: channel@8 {
+		reg = <8>;
 		zephyr,gain = "ADC_GAIN_1";
 		zephyr,reference = "ADC_REF_INTERNAL";
 		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
