@@ -156,6 +156,46 @@ static int brcmfmac_probe_sdio(const struct device *dev)
 	return 0;
 }
 
+static int brcmfmac_process_clm_blob(struct brcmfmac_data *data)
+{
+	const size_t chunk_size = 512;
+
+	struct brcmf_dload_data_le *hdr;
+	uint8_t buf[sizeof(*hdr) + chunk_size];
+
+	hdr = (struct brcmf_dload_data_le *)buf;
+	hdr->flag = (1 << 12) | 2; // DL_BEGIN
+	hdr->dload_type = 2; // DL_TYPE_CLM
+	hdr->crc = 0;
+
+	const uint8_t *current = brcmfmac_clm_blob;
+	size_t remaining = brcmfmac_clm_blob_len;
+
+	while (remaining > 0) {
+		size_t transfer = chunk_size;
+		if (remaining <= transfer) {
+			transfer = remaining;
+			hdr->flag |= 4; // DL_END
+		}
+
+		memcpy(hdr->data, current, transfer);
+		hdr->len = transfer;
+
+		LOG_DBG("sending clm chunk, len=%u", transfer);
+		int ret = brcmfmac_bcdc_iovar_set(data, "clmload", buf, sizeof(*hdr) + transfer);
+		if (ret != 0) {
+			LOG_ERR("clm chunk download failed: %d", ret);
+			return ret;
+		}
+
+		current += transfer;
+		remaining -= transfer;
+		hdr->flag &= ~2u;
+	}
+
+	return 0;
+}
+
 static int brcmfmac_init(const struct device *dev)
 {
 	struct brcmfmac_data *data = dev->data;
@@ -180,6 +220,12 @@ static int brcmfmac_init(const struct device *dev)
 	ret = brcmfmac_bcdc_init(data);
 	if (ret != 0) {
 		LOG_ERR("BCDC init failed: %d", ret);
+		return ret;
+	}
+
+	ret = brcmfmac_process_clm_blob(data);
+	if (ret != 0) {
+		LOG_ERR("CLM upload failed: %d", ret);
 		return ret;
 	}
 

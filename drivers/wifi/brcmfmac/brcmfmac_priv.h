@@ -261,6 +261,14 @@ struct brcmf_event_msg_be {
 #define BRCMF_E_STATUS_NO_NETWORKS 3
 #define BRCMF_E_STATUS_PARTIAL   8
 
+struct brcmf_dload_data_le {
+	uint16_t flag;
+	uint16_t dload_type;
+	uint32_t len;
+	uint32_t crc;
+	uint8_t data[];
+} __packed;
+
 /* === Escan IOVAR =========================================================
  *
  * iovar name "escan", value = struct brcmf_escan_params_le. Action=1 starts
@@ -550,5 +558,7 @@ extern const unsigned char brcmfmac_fw[];
 extern const unsigned int  brcmfmac_fw_len;
 extern const unsigned char brcmfmac_nvram[];
 extern const unsigned int  brcmfmac_nvram_len;
+extern const unsigned char brcmfmac_clm_blob[];
+extern const unsigned int  brcmfmac_clm_blob_len;
 
 #endif /* ZEPHYR_DRIVERS_WIFI_BRCMFMAC_PRIV_H_ */
