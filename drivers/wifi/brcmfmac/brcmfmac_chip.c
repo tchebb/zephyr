@@ -333,6 +333,23 @@ int brcmfmac_chip_read_id(struct brcmfmac_data *data)
 	return 0;
 }
 
+int brcmfmac_chip_ram_data(struct brcmfmac_data *data)
+{
+	/* TODO: Read ram_size from core registers like in Linux. */
+	if (data->chip_id == 43430 || data->chip_id == 43439) {
+		data->ram_base = 0u;
+		data->ram_size = 0x80000u;
+	} else if (data->chip_id == 0x4345) {
+		data->ram_base = 0x198000u;
+		data->ram_size = 0xC8000u;
+	} else {
+		LOG_ERR("ram_data: don't know RAM addresses for this chip");
+		return -1;
+	}
+
+	return 0;
+}
+
 int brcmfmac_chip_pmu_setup(struct brcmfmac_data *data)
 {
 	int ret = sdio_write_byte(&data->backplane, SBSDIO_FUNC1_CHIPCLKCSR,

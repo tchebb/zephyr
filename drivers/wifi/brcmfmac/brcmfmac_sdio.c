@@ -290,7 +290,7 @@ static int brcmfmac_sdio_nvram_strip(const uint8_t *in, uint32_t in_len,
 int brcmfmac_sdio_fw_upload(struct brcmfmac_data *data)
 {
 	int64_t t0 = k_uptime_get();
-	int ret = brcmfmac_sdio_ramrw(data, true, 0u,
+	int ret = brcmfmac_sdio_ramrw(data, true, data->ram_base,
 				      (uint8_t *)brcmfmac_fw, brcmfmac_fw_len);
 	if (ret != 0) {
 		LOG_ERR("fw upload failed: %d", ret);
@@ -300,7 +300,7 @@ int brcmfmac_sdio_fw_upload(struct brcmfmac_data *data)
 	LOG_INF("fw upload OK in %lld ms (%u bytes)",
 		(long long)(t1 - t0), brcmfmac_fw_len);
 
-	ret = brcmfmac_sdio_verify_memory(data, 0u, brcmfmac_fw, brcmfmac_fw_len);
+	ret = brcmfmac_sdio_verify_memory(data, data->ram_base, brcmfmac_fw, brcmfmac_fw_len);
 	if (ret != 0) {
 		LOG_ERR("fw verify failed: %d", ret);
 		return ret;
@@ -331,8 +331,7 @@ int brcmfmac_sdio_nvram_upload(struct brcmfmac_data *data)
 	LOG_DBG("nvram strip: %u -> %d bytes (incl. token footer)",
 		brcmfmac_nvram_len, stripped);
 
-	const uint32_t ramsize = 0x80000u;   /* SOCRAM = 512 KiB on BCM43430A1 */
-	const uint32_t nvram_addr = ramsize - (uint32_t)stripped;
+	const uint32_t nvram_addr = data->ram_base + data->ram_size - (uint32_t)stripped;
 
 	int64_t t0 = k_uptime_get();
 	int ret = brcmfmac_sdio_ramrw(data, true, nvram_addr,

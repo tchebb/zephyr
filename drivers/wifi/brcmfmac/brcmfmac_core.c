@@ -37,6 +37,11 @@ static int brcmfmac_initialization(struct brcmfmac_data *data)
 		LOG_INF("  -> matches BCM43430A1");
 	}
 
+	ret = brcmfmac_chip_ram_data(data);
+	if (ret != 0) {
+		return ret;
+	}
+
 	ret = brcmfmac_chip_pmu_setup(data);
 	if (ret != 0) {
 		return ret;

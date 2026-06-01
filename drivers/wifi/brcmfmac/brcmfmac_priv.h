@@ -408,6 +408,9 @@ struct brcmfmac_data {
 	uint8_t  chip_rev;
 	uint8_t  chip_type;
 
+	uint32_t ram_base;
+	uint32_t ram_size;
+
 	/* BCDC protocol state. */
 	bool f2_ready;
 	uint8_t sdpcm_txseq;     /* next outgoing SDPCM seq (8-bit wrap) */
@@ -471,6 +474,7 @@ int brcmfmac_sdio_nvram_upload(struct brcmfmac_data *data);
 
 /* === Chip initialization (brcmfmac_chip.c) === */
 int brcmfmac_chip_read_id(struct brcmfmac_data *data);
+int brcmfmac_chip_ram_data(struct brcmfmac_data *data);
 int brcmfmac_chip_pmu_setup(struct brcmfmac_data *data);
 int brcmfmac_chip_erom_scan(struct brcmfmac_data *data);
 const struct bcm_core *brcmfmac_chip_core_find(const struct brcmfmac_data *data,
