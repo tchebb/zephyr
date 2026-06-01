@@ -65,6 +65,49 @@ static int brcmfmac_initialization(struct brcmfmac_data *data)
 	return brcmfmac_chip_set_active(data);
 }
 
+static int brcmfmac_power_on(const struct device *dev)
+{
+#if DT_INST_NODE_HAS_PROP(0, wifi_reg_on_gpios)
+	int ret;
+	const struct brcmfmac_config *cfg = dev->config;
+
+	/* Check WIFI REG_ON gpio instance */
+	if (!device_is_ready(cfg->reg_on.port)) {
+		LOG_ERR("power_on: failed to configure reg_on %s pin %d",
+			cfg->reg_on.port->name, cfg->reg_on.pin);
+		return -EIO;
+	}
+
+	/* Configure wifi_reg_on as output  */
+	ret = gpio_pin_configure_dt(&cfg->reg_on, GPIO_OUTPUT);
+	if (ret) {
+		LOG_ERR("power_on: failed to configure reg_on %s pin %d, ret=%d",
+			cfg->reg_on.port->name, cfg->reg_on.pin, ret);
+		return ret;
+	}
+
+	ret = gpio_pin_set_dt(&cfg->reg_on, 0);
+	if (ret) {
+		return ret;
+	}
+
+	/* Allow CBUCK regulator to discharge */
+	k_msleep(10);
+
+	/* WIFI power on */
+	ret = gpio_pin_set_dt(&cfg->reg_on, 1);
+	if (ret) {
+		return ret;
+	}
+
+	k_msleep(250); /* TODO: Make constant */
+#else
+	(void)dev;
+#endif /* DT_INST_NODE_HAS_PROP(0, reg_on_gpios) */
+
+	return 0;
+}
+
 static int brcmfmac_probe_sdio(const struct device *dev)
 {
 	const struct brcmfmac_config *cfg = dev->config;
@@ -112,7 +155,12 @@ static int brcmfmac_init(const struct device *dev)
 {
 	struct brcmfmac_data *data = dev->data;
 
-	int ret = brcmfmac_probe_sdio(dev);
+	int ret = brcmfmac_power_on(dev);
+	if (ret != 0) {
+		return ret;
+	}
+
+	ret = brcmfmac_probe_sdio(dev);
 	if (ret != 0) {
 		return ret;
 	}
