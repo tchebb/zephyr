@@ -199,7 +199,7 @@ struct cdc_hdr {
 	uint16_t outlen;
 	uint16_t inlen;
 	uint32_t flags;
-	uint32_t status;
+	int32_t status;
 } __packed;
 
 /* BDC (Broadcom Data Codec) header sits between SDPCM and the L2 frame
