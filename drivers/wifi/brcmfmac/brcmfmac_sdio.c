@@ -321,7 +321,7 @@ int brcmfmac_sdio_fw_upload(struct brcmfmac_data *data)
 
 int brcmfmac_sdio_nvram_upload(struct brcmfmac_data *data)
 {
-	static uint8_t nvram_buf[1024] __aligned(CONFIG_DCACHE_LINE_SIZE);
+	static uint8_t nvram_buf[2048] __aligned(CONFIG_DCACHE_LINE_SIZE);
 	int stripped = brcmfmac_sdio_nvram_strip(brcmfmac_nvram, brcmfmac_nvram_len,
 						nvram_buf, sizeof(nvram_buf));
 	if (stripped < 0) {
