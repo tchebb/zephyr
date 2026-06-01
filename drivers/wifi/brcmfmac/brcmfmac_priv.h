@@ -59,6 +59,7 @@
 #define BCMA_CORE_PMU                   0x827
 #define BCMA_CORE_SDIO_DEV              0x829
 #define BCMA_CORE_ARM_CM3               0x82A
+#define BCMA_CORE_ARM_CR4               0x83E
 #define BCMA_CORE_GCI                   0x840
 
 /* SDIO core register offset within data base. */
@@ -92,6 +93,9 @@
 /* D11-specific IOCTL bits. */
 #define D11_BCMA_IOCTL_PHYCLOCKEN       0x0004
 #define D11_BCMA_IOCTL_PHYRESET         0x0008
+
+/* CR4-specific IOCTL bits. */
+#define ARMCR4_BCMA_IOCTL_CPUHALT       0x0020
 
 /* SOCRAM register offsets (within SOCRAM core base). */
 #define SOCRAM_BANKIDX_OFFSET           0x10

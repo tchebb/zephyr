@@ -306,6 +306,16 @@ int brcmfmac_sdio_fw_upload(struct brcmfmac_data *data)
 		return ret;
 	}
 	LOG_DBG("fw verify OK in %lld ms", (long long)(k_uptime_get() - t1));
+
+	if (data->ram_base != 0 && brcmfmac_fw_len >= 4) {
+		LOG_DBG("fw_upload: set reset vector");
+		ret = brcmfmac_sdio_ramrw(data, true, 0, (uint8_t *)brcmfmac_fw, 4);
+		if (ret != 0) {
+			LOG_ERR("fw_upload: set reset vector failed: %d", ret);
+			return ret;
+		}
+	}
+
 	return 0;
 }
 
