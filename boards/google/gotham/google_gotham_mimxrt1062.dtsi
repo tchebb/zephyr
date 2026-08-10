@@ -249,65 +249,89 @@
 		zd25lq128: flash@0 {
 			compatible = "soc-nv-flash";
 			reg = <0x0 DT_SIZE_M(16)>;
+			ranges;
+			#address-cells = <1>;
+			#size-cells = <1>;
+
 			erase-block-size = <DT_SIZE_K(4)>;
 			write-block-size = <1>;
 
 			partitions {
-				compatible = "fixed-partitions";
+				ranges;
 				#address-cells = <1>;
 				#size-cells = <1>;
 
 				/* Flash Configuration Block */
 				partition@0 {
+					compatible = "zephyr,mapped-partition";
 					label = "fcb";
 					reg = <0x000000 DT_SIZE_K(4)>;
 				};
 
 				/* Image Vector Table */
 				partition@1000 {
+					compatible = "zephyr,mapped-partition";
 					label = "ivt";
 					reg = <0x001000 DT_SIZE_K(4)>;
 				};
 
-				/* Encrypted JSON crash logs */
-				partition@6000 {
-					label = "crash";
-					reg = <0x006000 DT_SIZE_K(136)>;
-				};
+				/* Encrypted data */
+				encrypted_partition: partition@6000 {
+					compatible = "zephyr,mapped-partition";
+					label = "encrypted";
+					reg = <0x006000 DT_SIZE_K(232)>;
+					ranges = <0x0 0x006000 DT_SIZE_K(232)>;
+					#address-cells = <1>;
+					#size-cells = <1>;
 
-				/* Encrypted Key/Value Store for user configuration */
-				kv_user_partition: partition@28000 {
-					label = "kv-user";
-					reg = <0x028000 DT_SIZE_K(32)>;
-				};
+					/* JSON crash logs */
+					partition@0 {
+						compatible = "zephyr,mapped-partition";
+						label = "crash";
+						reg = <0x00000 DT_SIZE_K(136)>;
+					};
 
-				/* Encrypted Key/Value Store for immutable device metadata */
-				kv_factory_partition: partition@38000 {
-					label = "kv-factory";
-					reg = <0x038000 DT_SIZE_K(16)>;
-				};
+					/* Key/Value Store for user configuration */
+					kv_user_partition: partition@22000 {
+						compatible = "zephyr,mapped-partition";
+						label = "kv-user";
+						reg = <0x22000 DT_SIZE_K(32)>;
+					};
 
-				partition@3c000 {
-					label = "kv-boot";
-					reg = <0x03c000 DT_SIZE_K(16)>;
+					/* Key/Value Store for immutable device metadata */
+					kv_factory_partition: partition@32000 {
+						compatible = "zephyr,mapped-partition";
+						label = "kv-factory";
+						reg = <0x32000 DT_SIZE_K(16)>;
+					};
+
+					partition@36000 {
+						compatible = "zephyr,mapped-partition";
+						label = "kv-boot";
+						reg = <0x36000 DT_SIZE_K(16)>;
+					};
 				};
 
 				slot_a_partition: partition@40000 {
+					compatible = "zephyr,mapped-partition";
 					label = "slot-a";
 					reg = <0x040000 (DT_SIZE_M(8) - DT_SIZE_K(256))>;
 				};
 
 				partition@800000 {
+					compatible = "zephyr,mapped-partition";
 					label = "boot-a";
 					reg = <0x800000 DT_SIZE_K(128)>;
 				};
 
 				partition@820000 {
+					compatible = "zephyr,mapped-partition";
 					label = "boot-b";
 					reg = <0x820000 DT_SIZE_K(128)>;
 				};
 
 				slot_b_partition: partition@840000 {
+					compatible = "zephyr,mapped-partition";
 					label = "slot-b";
 					reg = <0x840000 (DT_SIZE_M(8) - DT_SIZE_K(256))>;
 				};
