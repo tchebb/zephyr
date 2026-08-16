@@ -266,6 +266,7 @@
 					compatible = "zephyr,mapped-partition";
 					label = "fcb";
 					reg = <0x000000 DT_SIZE_K(4)>;
+					read-only;
 				};
 
 				/* Image Vector Table */
@@ -273,6 +274,7 @@
 					compatible = "zephyr,mapped-partition";
 					label = "ivt";
 					reg = <0x001000 DT_SIZE_K(4)>;
+					read-only;
 				};
 
 				/* Encrypted data */
@@ -303,6 +305,7 @@
 						compatible = "zephyr,mapped-partition";
 						label = "kv-factory";
 						reg = <0x32000 DT_SIZE_K(16)>;
+						read-only;
 					};
 
 					partition@36000 {
@@ -322,12 +325,14 @@
 					compatible = "zephyr,mapped-partition";
 					label = "boot-a";
 					reg = <0x800000 DT_SIZE_K(128)>;
+					read-only;
 				};
 
 				partition@820000 {
 					compatible = "zephyr,mapped-partition";
 					label = "boot-b";
 					reg = <0x820000 DT_SIZE_K(128)>;
+					read-only;
 				};
 
 				slot_b_partition: partition@840000 {
