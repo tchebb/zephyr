@@ -352,6 +352,25 @@
 	// TODO: devices
 
 	status = "okay";
+
+	bq27426: bq27426@55 {
+		compatible = "ti,bq274xx";
+		reg = <0x55>;
+
+		/*
+		 * TODO: The driver needs to be able to program Google's
+		 * configuration for this nonstandard chemistry ID if it's not
+		 * already set.
+		 */
+		chemistry-id = <0x2293>;
+		design-voltage = <3800>;
+		design-capacity = <2000>;
+		terminate-voltage = <3400>;
+		taper-current = <200>;
+		int-gpios = <&gpio2 28 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+
+		status = "okay";
+	};
 };
 
 &lpi2c2 {
