@@ -10,6 +10,9 @@
  * - BQ27421
  *   Datasheet: https://www.ti.com/lit/gpn/bq27421-g1
  *   Technical reference manual: https://www.ti.com/lit/pdf/sluuac5
+ * - BQ27426
+ *   Datasheet: https://www.ti.com/lit/gpn/bq27426
+ *   Technical reference manual: https://www.ti.com/lit/pdf/sluubb0
  * - BQ27427
  *   Datasheet: https://www.ti.com/lit/gpn/bq27427
  *   Technical reference manual: https://www.ti.com/lit/pdf/sluucd5
@@ -70,6 +73,13 @@ static const struct bq274xx_regs bq27421_regs = {
 	.dm_design_energy = 12,
 	.dm_terminate_voltage = 16,
 	.dm_taper_rate = 27,
+};
+
+static const struct bq274xx_regs bq27426_regs = {
+	.dm_design_capacity = 6,
+	.dm_design_energy = 8,
+	.dm_terminate_voltage = 10,
+	.dm_taper_rate = 21,
 };
 
 static const struct bq274xx_regs bq27427_regs = {
@@ -355,7 +365,7 @@ static int bq274xx_ensure_chemistry(const struct device *dev)
 		/* Only the bq27427 has a configurable Chemistry ID. On bq27421, it depends on the
 		 * variant of the chip, so just error out if the chemistry ID is wrong.
 		 */
-		if (data->regs != &bq27427_regs) {
+		if (data->regs == &bq27421_regs) {
 			LOG_ERR("Unable to confirm chemistry ID 0x%04x. Device reported 0x%04x",
 				chem_id, val);
 			return -EIO;
@@ -409,6 +419,8 @@ static int bq274xx_gauge_configure(const struct device *dev)
 
 		if (id == BQ27421_DEVICE_ID) {
 			data->regs = &bq27421_regs;
+		} else if (id == BQ27426_DEVICE_ID) {
+			data->regs = &bq27426_regs;
 		} else if (id == BQ27427_DEVICE_ID) {
 			data->regs = &bq27427_regs;
 		} else {

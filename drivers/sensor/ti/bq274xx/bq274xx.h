@@ -15,6 +15,7 @@
 #define BQ274XX_UNSEAL_KEY_A 0x8000 /* Unseal code one on BQ27441-G1A and similar */
 #define BQ274XX_UNSEAL_KEY_B 0x8000 /* Unseal code two on BQ27441-G1A and similar */
 #define BQ27421_DEVICE_ID  0x0421
+#define BQ27426_DEVICE_ID  0x0426
 #define BQ27427_DEVICE_ID  0x0427
 
 /*** Standard Commands ***/
@@ -60,7 +61,7 @@
 #define BQ274XX_CTRL_EXIT_CFGUPDATE  0x0043
 #define BQ274XX_CTRL_EXIT_RESIM      0x0044
 
-/* BQ27427 */
+/* BQ27427 & BQ27426 */
 #define BQ27427_CTRL_CHEM_A 0x0030
 #define BQ27427_CTRL_CHEM_B 0x0031
 #define BQ27427_CTRL_CHEM_C 0x0032
