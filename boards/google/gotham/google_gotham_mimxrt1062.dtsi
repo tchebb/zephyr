@@ -478,6 +478,23 @@
 	};
 };
 
+&flexpwm4_pwm2 {
+	pinctrl-0 = <&pinmux_flexpwm4_2>;
+	pinctrl-names = "default";
+	nxp,prescaler = <64>;
+
+	status = "okay";
+};
+
+
+&flexpwm4_pwm3 {
+	pinctrl-0 = <&pinmux_flexpwm4_3>;
+	pinctrl-names = "default";
+	nxp,prescaler = <64>;
+
+	status = "okay";
+};
+
 zephyr_udc0: &usb1 {
 	phy-handle = <&usbphy1>;
 

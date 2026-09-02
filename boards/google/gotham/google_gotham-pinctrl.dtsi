@@ -15,6 +15,26 @@
 &pinctrl {
 
 	/* Configures pin routing and optionally pin electrical features. */
+	pinmux_flexpwm4_2: pinmux_flexpwm4_2 {
+		group0 {
+			pinmux = <&iomuxc_gpio_b1_14_flexpwm4_pwma2>;
+			drive-strength = "r0-6";
+			slew-rate = "slow";
+			nxp,speed = "50-mhz";
+		};
+	};
+
+	/* Configures pin routing and optionally pin electrical features. */
+	pinmux_flexpwm4_3: pinmux_flexpwm4_3 {
+		group0 {
+			pinmux = <&iomuxc_gpio_b1_15_flexpwm4_pwma3>;
+			drive-strength = "r0-6";
+			slew-rate = "slow";
+			nxp,speed = "50-mhz";
+		};
+	};
+
+	/* Configures pin routing and optionally pin electrical features. */
 	pinmux_flexspi: pinmux_flexspi {
 		group0 {
 			pinmux = <&iomuxc_gpio_sd_b1_07_flexspi_a_sclk>,
