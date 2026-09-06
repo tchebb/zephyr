@@ -133,6 +133,34 @@
 	};
 
 	/* Configures pin routing and optionally pin electrical features. */
+	pinmux_sai1: pinmux_sai1 {
+		group0 {
+			pinmux = <&iomuxc_gpio_ad_b1_09_sai1_mclk>;
+			drive-strength = "r0";
+			slew-rate = "slow";
+			nxp,speed = "150-mhz";
+			input-enable;
+		};
+		group1 {
+			pinmux = <&iomuxc_gpio_ad_b1_12_sai1_rx_data0>;
+			drive-strength = "r0-6";
+			slew-rate = "slow";
+			nxp,speed = "150-mhz";
+			input-enable;
+		};
+		group2 {
+			pinmux = <&iomuxc_gpio_ad_b1_13_sai1_tx_data0>,
+				<&iomuxc_gpio_ad_b1_14_sai1_tx_bclk>,
+				<&iomuxc_gpio_ad_b1_15_sai1_tx_sync>;
+			bias-disable;
+			drive-strength = "r0";
+			slew-rate = "slow";
+			nxp,speed = "150-mhz";
+			input-enable;
+		};
+	};
+
+	/* Configures pin routing and optionally pin electrical features. */
 	pinmux_triggers: pinmux_triggers {
 		group0 {
 			pinmux = <&iomuxc_gpio_ad_b1_08_adc1_in13>,

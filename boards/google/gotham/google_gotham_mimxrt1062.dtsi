@@ -32,6 +32,7 @@
 		watchdog0 = &wdog0;
 		sdhc0 = &usdhc1;
 		rtc = &counter_rtc;
+		i2s-codec-tx = &sai1;
 	};
 
 	gamepad-digital {
@@ -349,9 +350,16 @@
 	pinctrl-0 = <&pinmux_lpi2c1>;
 	pinctrl-names = "default";
 
-	// TODO: devices
-
 	status = "okay";
+
+	audio_codec: wm8904@1a {
+		compatible = "wolfson,wm8904";
+		reg = <0x1a>;
+		clocks = <&ccm IMX_CCM_SAI1_CLK 0x7c 18>;
+		clock-names = "mclk";
+
+		status = "okay";
+	};
 
 	bq27426: bq27426@55 {
 		compatible = "ti,bq274xx";
@@ -541,15 +549,13 @@ zephyr_uhc0: &usbh1 {
 	status = "okay";
 };
 
-// TODO
-#if 0
 &sai1 {
 	pinctrl-0 = <&pinmux_sai1>;
 	pinctrl-names = "default";
+	mclk-output;
 
 	status = "okay";
 };
-#endif
 
 &gpt_hw_timer {
 	status = "okay";
