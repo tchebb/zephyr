@@ -14,7 +14,7 @@
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 
 / {
-	model = "Google Stadia Controller (gotham)";
+	model = "Google Stadia controller (gotham)";
 	compatible = "google,gotham";
 
 	chosen {
