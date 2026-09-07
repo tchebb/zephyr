@@ -37,15 +37,26 @@
 	/* Configures pin routing and optionally pin electrical features. */
 	pinmux_flexspi: pinmux_flexspi {
 		group0 {
-			pinmux = <&iomuxc_gpio_sd_b1_07_flexspi_a_sclk>,
+			pinmux = <&iomuxc_gpio_sd_b1_06_flexspi_a_ss0_b>,
+				<&iomuxc_gpio_sd_b1_07_flexspi_a_sclk>,
 				<&iomuxc_gpio_sd_b1_08_flexspi_a_data0>,
 				<&iomuxc_gpio_sd_b1_09_flexspi_a_data1>,
 				<&iomuxc_gpio_sd_b1_10_flexspi_a_data2>,
 				<&iomuxc_gpio_sd_b1_11_flexspi_a_data3>;
 			bias-disable;
-			drive-strength = "r0-6";
+			drive-strength = "r0-4";
 			slew-rate = "fast";
-			nxp,speed = "150-mhz";
+			nxp,speed = "200-mhz";
+		};
+		group1 {
+			pinmux = <&iomuxc_gpio_sd_b1_05_flexspi_a_dqs>;
+			drive-strength = "r0-4";
+			input-schmitt-enable;
+			bias-pull-down;
+			bias-pull-down-value = "100k";
+			slew-rate = "fast";
+			nxp,speed = "200-mhz";
+			input-enable;
 		};
 	};
 
