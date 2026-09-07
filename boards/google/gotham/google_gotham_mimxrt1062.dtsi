@@ -361,6 +361,9 @@
 		status = "okay";
 	};
 
+	/* 0x3b: TI TS3A227E */
+	/* 0x47: TI TUSB320HAI */
+
 	bq27426: bq27426@55 {
 		compatible = "ti,bq274xx";
 		reg = <0x55>;
@@ -379,6 +382,8 @@
 
 		status = "okay";
 	};
+
+	/* 0x6b: TI BQ25601 */
 };
 
 &lpi2c2 {
